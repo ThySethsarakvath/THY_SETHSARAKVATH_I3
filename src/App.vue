@@ -1,69 +1,46 @@
 <script>
 import CategoryComponent from './components/CategoryComponent.vue'
 import BannerComponent from './components/BannerComponent.vue'
+import { useProductStore } from './Stores/product'
 
-const burgerImage = new URL('@/assets/burger.png', import.meta.url).href
-const peachImage = new URL('@/assets/peach.png', import.meta.url).href
-const kiwiImage = new URL('@/assets/kiwi.png', import.meta.url).href
-const appleImage = new URL('@/assets/apple.png', import.meta.url).href
-const snackImage = new URL('@/assets/snack.png', import.meta.url).href
-const berryImage = new URL('@/assets/berry.png', import.meta.url).href
-const cabbageImage = new URL('@/assets/cabbage.png', import.meta.url).href
-const headphoneImage = new URL('@/assets/headphone.png', import.meta.url).href
-const cocoImage = new URL('@/assets/Coco.png', import.meta.url).href
-const orangeImage = new URL('@/assets/orange.png', import.meta.url).href
-
-const onionImage = new URL('@/assets/onion.png', import.meta.url).href
-const milkImage = new URL('@/assets/milk.png', import.meta.url).href
-const veggieImage = new URL('@/assets/Veggies.png', import.meta.url).href
 export default {
   name: 'App',
-  data() {
-    return {
-      burgerImage,
-      peachImage,
-      kiwiImage,
-      appleImage,
-      snackImage,
-      berryImage,
-      cabbageImage,
-      headphoneImage,
-      cocoImage,
-      orangeImage,
-      onionImage,
-      milkImage,
-      veggieImage,
-    }
-  },
   components: {
     CategoryComponent,
     BannerComponent,
+  },
+  setup() {
+    const productStore = useProductStore()
+    return {
+      productStore,
+    }
+  },
+  async mounted() {
+    await this.productStore.fetchProducts()
   },
 }
 </script>
 
 <template>
   <div class="app">
+    <h2 class="section-title">Featured Categories</h2>
+
+    <div class="group-filter">
+      <span class="group-item" v-for="group in productStore.groups" :key="group.id">
+        {{ group.name }}
+      </span>
+    </div>
+
     <div class="category-wrapper">
-      <CategoryComponent title="Burger & Cake" :product-count="14" :image="burgerImage" background-color="#F2FCE4" />
-      <CategoryComponent title="Peach" :product-count="17" :image="peachImage" background-color="#FFFCEB" />
-      <CategoryComponent title="Organic Kiwi" :product-count="21" :image="kiwiImage" background-color="#ECFFEC" />
-      <CategoryComponent title="Apple" :product-count="68" :image="appleImage" background-color="#FEEFEA" />
-      <CategoryComponent title="Snack" :product-count="34" :image="snackImage" background-color="#FFF3EB" />
-      <CategoryComponent title="Black plum" :product-count="25" :image="berryImage" background-color="#FFF3FF" />
-      <CategoryComponent title="Cabbage" :product-count="65" :image="cabbageImage" background-color="#F2FCE4" />
-      <CategoryComponent title="Headphone" :product-count="33" :image="headphoneImage" background-color="#FFFCEB" />
-      <CategoryComponent title="Coco" :product-count="54" :image="cocoImage" background-color="#F2FCE4" />
-      <CategoryComponent title="Orange" :product-count="63" :image="orangeImage" background-color="#FFF3FF" />
+      <CategoryComponent v-for="category in productStore.categories" :key="category['id']" :title="category['name']"
+        :product-count="category['productCount']" :background-color="category['color']"
+        :image="'http://localhost:3000/' + category['image']" />
     </div>
 
     <div class="banner-wrapper">
-      <BannerComponent title="Everyday Fresh & Clean with Our Products" button-text="Shop Now →" :image="onionImage"
-        background-color="#fef6e4" />
-      <BannerComponent title="Make your Breakfast Easy & Healthy" button-text="Shop Now →" :image="milkImage"
-        background-color="#F3E8E8" />
-      <BannerComponent title="The Best Organic Products Online" button-text="Shop Now →" :image="veggieImage"
-        background-color="#E7EAF3" />
+      <BannerComponent v-for="promotion in productStore.promotions" :key="promotion['id']" :title="promotion['title']"
+        :button-text="promotion['bottonText']" :background-color="promotion['color']"
+        :image="'http://localhost:3000/' + promotion['image']" />
     </div>
   </div>
 </template>
@@ -93,5 +70,32 @@ export default {
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #253D4E;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.group-filter {
+  display: flex;
+  gap: 25px;
+  margin-bottom: 20px;
+}
+
+.group-item {
+  font-size: 14px;
+  color: #7E7E7E;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.group-item:hover {
+  color: #3BB77E;
+  font-weight: 600;
 }
 </style>
