@@ -1,5 +1,5 @@
 <template>
-  <div class="product-card">
+  <div class="product-card" @click="goToProduct">
     <!-- Badge -->
     <div v-if="badge" :class="['badge', badgeClass]">
       {{ badge }}
@@ -37,7 +37,7 @@
           <span class="current-price">${{ price.toFixed(2) }}</span>
           <span v-if="originalPrice > price" class="original-price">${{ originalPrice.toFixed(2) }}</span>
         </div>
-        <button class="add-btn" @click="handleAddToCart">
+        <button class="add-btn" @click.stop="handleAddToCart">
           <span>Add</span>
           <span class="plus-icon">+</span>
         </button>
@@ -104,6 +104,9 @@ export default {
     handleAddToCart() {
       this.$emit('add-to-cart', this.id)
       console.log('Added to cart:', this.name)
+    },
+    goToProduct() {
+      this.$router.push({ name: 'product', params: { productId: this.id } })
     },
   },
 }
