@@ -21,6 +21,11 @@
 .nav-bar {
   display: flex;
   gap: 20px;
+  font-size: 24px;
+}
+
+.nav-bar a {
+  text-decoration: none;
 }
 
 .router-link-active {
