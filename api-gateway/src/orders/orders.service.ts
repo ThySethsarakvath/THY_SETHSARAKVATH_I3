@@ -1,9 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { PaymentsService } from 'src/payments/payments.service';
 
 @Injectable()
 export class OrdersService {
-  constructor(@Inject('ORDERS_SERVICE') private readonly client: ClientProxy) {}
+  constructor(
+    @Inject('ORDERS_SERVICE') private readonly client: ClientProxy,
+    private readonly paymentsService: PaymentsService,
+  ) {}
 
   createOrder(orderDto: any) {
     // In real life we might validate or save to DB first
