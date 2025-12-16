@@ -5,12 +5,15 @@ import { AppService } from './app.service';
 import { OrdersModule } from './orders/orders.module';
 import { ReceiptsModule } from './receipts/receipts.module';
 import { PaymentsModule } from './payments/payments.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { CoreModule } from './core/core.module';
 
 @Module({
   imports: [
     OrdersModule,
     ReceiptsModule,
     PaymentsModule,
+    NotificationsModule,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -23,6 +26,8 @@ import { PaymentsModule } from './payments/payments.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    NotificationsModule,
+    CoreModule,
   ],
   controllers: [AppController],
   providers: [AppService],

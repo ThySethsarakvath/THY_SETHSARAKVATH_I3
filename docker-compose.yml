@@ -19,6 +19,7 @@ services:
       - "3000:3000"
     environment:
       RABBITMQ_URL: amqp://admin:admin@rabbitmq:5672
+      CHOKIDAR_USEPOLLING: "true"
     volumes:
       - ./api-gateway:/app
       - /app/node_modules

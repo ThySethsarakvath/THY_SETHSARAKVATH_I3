@@ -3,10 +3,12 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
 import { PaymentsModule } from 'src/payments/payments.module';
+import { NotificationsModule } from 'src/notifications/notifications.module';
 // import { PaymentsService } from 'src/payments/payments.service';
 
 @Module({
   imports: [
+    forwardRef(() => NotificationsModule),
     forwardRef(() => PaymentsModule),
     ClientsModule.register([
       {
