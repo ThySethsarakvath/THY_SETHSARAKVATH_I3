@@ -2,7 +2,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Inject, Injectable } from '@nestjs/common';
 import { EVENT_PUBLISHER } from 'src/core/tokens';
-import { NOTIFICATION_OPTIONS, NOTIFICATION_FEATURE } from './constants';
+import {
+  NOTIFICATION_OPTIONS,
+  NOTIFICATION_FEATURE_REGISTRY,
+} from './constants';
 import {
   NotificationFeatureOptions,
   NotificationModuleOptions,
@@ -19,7 +22,7 @@ export class NotificationsService {
     private readonly publisher: EventPublisher,
     @Inject(NOTIFICATION_OPTIONS)
     private readonly options: NotificationModuleOptions,
-    @Inject(NOTIFICATION_FEATURE)
+    @Inject(NOTIFICATION_FEATURE_REGISTRY)
     private readonly features: NotificationFeatureOptions[],
   ) {}
 

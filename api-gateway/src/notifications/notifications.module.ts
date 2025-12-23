@@ -5,10 +5,18 @@ import {
   NotificationModuleOptions,
   NotificationFeatureOptions,
 } from './interface';
-import { NOTIFICATION_OPTIONS, NOTIFICATION_FEATURE } from './constants';
+import {
+  NOTIFICATION_OPTIONS,
+  NOTIFICATION_FEATURE_OPTIONS,
+} from './constants';
+import { NotificationFeatureRegistrar } from './notifications.feature.registrar';
+import { NotificationsRegistryModule } from './notifications-registry.module';
+import { EVENT_PUBLISHER } from 'src/core/tokens';
 // import { features } from 'process';
 
-@Module({})
+@Module({
+  imports: [NotificationsRegistryModule],
+})
 export class NotificationsModule {
   // static register(options: NotificationModuleOptions): DynamicModule {
   //   return {
@@ -27,19 +35,20 @@ export class NotificationsModule {
   static forRoot(options: NotificationModuleOptions): DynamicModule {
     return {
       module: NotificationsModule,
+      global: true, // optional
       providers: [
+        { provide: NOTIFICATION_OPTIONS, useValue: options },
         {
-          provide: NOTIFICATION_OPTIONS,
-          useValue: options,
-        },
-        {
-          provide: NOTIFICATION_FEATURE,
-          useValue: [] as NotificationFeatureOptions[],
+          provide: EVENT_PUBLISHER,
+          useValue: {
+            publish: (event: string, payload: any) => {
+              console.log(`[EVENT_PUBLISHER] ${event}`, payload);
+            },
+          },
         },
         NotificationsService,
       ],
       exports: [NotificationsService],
-      global: true,
     };
   }
 
@@ -47,13 +56,8 @@ export class NotificationsModule {
     return {
       module: NotificationsModule,
       providers: [
-        {
-          provide: NOTIFICATION_FEATURE,
-          useFactory: (features: NotificationFeatureOptions[]) => {
-            return [...features, feature];
-          },
-          inject: [NOTIFICATION_FEATURE],
-        },
+        { provide: NOTIFICATION_FEATURE_OPTIONS, useValue: feature },
+        NotificationFeatureRegistrar,
       ],
     };
   }
