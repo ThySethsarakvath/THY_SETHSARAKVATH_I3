@@ -8,7 +8,11 @@ import { NotificationsModule } from 'src/notifications/notifications.module';
 
 @Module({
   imports: [
-    forwardRef(() => NotificationsModule),
+    NotificationsModule.forFeature({
+      featureName: 'orders',
+      prefix: '[ORDERS]',
+      channels: ['log', 'email'],
+    }),
     forwardRef(() => PaymentsModule),
     ClientsModule.register([
       {

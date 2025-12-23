@@ -26,6 +26,11 @@ import { CoreModule } from './core/core.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    NotificationsModule.forRoot({
+      appName: 'API_Gateway_Lab',
+      defaultChannel: 'log',
+      enable: true,
+    }),
     NotificationsModule,
     CoreModule,
   ],
