@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Receipt } from 'src/database/entities/receipts.entity';
 import { CreateReceiptDto } from './dto/create-receipt.dto';
@@ -11,7 +8,7 @@ import { NotificationsService } from 'src/notifications/notifications.service';
 @Injectable()
 export class ReceiptsService {
   constructor(
-    @InjectRepository(Receipt)
+    @Inject('RECEIPT_REPO')
     private readonly receiptRepo: Repository<Receipt>,
     private readonly notifications: NotificationsService,
   ) {}
@@ -34,11 +31,6 @@ export class ReceiptsService {
         price: dto.price,
       }),
     );
-    // const receipt = this.receiptRepo.create({
-    //   issuedAt: new Date(dto.issuedAt),
-    //   name: dto.name,
-    //   price: dto.price,
-    // });
 
     this.notifications.notify('receipts', 'receipt_created', {
       receiptId: saved.receiptId,

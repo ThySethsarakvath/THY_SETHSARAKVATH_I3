@@ -1,7 +1,6 @@
 services:
   rabbitmq:
     image: rabbitmq:3-management
-    container_name: rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -13,7 +12,6 @@ services:
     build:
       context: ./api-gateway
       dockerfile: Dockerfile.dev
-    container_name: api-gateway
     command: npm run start:dev
     ports:
       - "3000:3000"
@@ -25,12 +23,13 @@ services:
       - /app/node_modules
     depends_on:
       - rabbitmq
+    env_file:
+      - .env
 
   order-worker:
     build:
       context: ./order-worker
       dockerfile: Dockerfile.dev
-    container_name: order-worker
     command: npm run start:dev
     environment:
       RABBITMQ_URL: amqp://admin:admin@rabbitmq:5672
@@ -43,7 +42,6 @@ services:
 
   postgres:
     image: postgres:16
-    container_name: postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
