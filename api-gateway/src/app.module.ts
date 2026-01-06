@@ -12,6 +12,7 @@ import { DatabaseModule } from './database/database.module';
 import { CategoryModule } from './module/category/category.module';
 import { ProductModule } from './module/product/product.module';
 import { ConfigModule } from '@nestjs/config';
+import { UserModule } from './users/users.module';
 // import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
@@ -23,6 +24,7 @@ import { ConfigModule } from '@nestjs/config';
     NotificationsModule,
     CategoryModule,
     ProductModule,
+    UserModule,
     DatabaseModule.forRoot({
       host: process.env.DB_HOST!,
       port: Number(process.env.DB_PORT),
