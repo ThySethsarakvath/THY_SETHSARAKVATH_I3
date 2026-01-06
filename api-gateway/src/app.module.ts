@@ -13,6 +13,7 @@ import { CategoryModule } from './module/category/category.module';
 import { ProductModule } from './module/product/product.module';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './users/users.module';
+import { CustomersModule } from './module/customer/customer.module';
 // import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
@@ -25,6 +26,7 @@ import { UserModule } from './users/users.module';
     CategoryModule,
     ProductModule,
     UserModule,
+    CustomersModule,
     DatabaseModule.forRoot({
       host: process.env.DB_HOST!,
       port: Number(process.env.DB_PORT),
