@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 // src/modules/customers/pipes/verify-customer.pipe.ts
 import {
   PipeTransform,
@@ -25,7 +29,6 @@ export class CustomerPipe implements PipeTransform {
     const errors: string[] = [];
     const transformed: any = {};
 
-    // 1. Validate and transform fullName
     if (!value.fullName || typeof value.fullName !== 'string') {
       errors.push('fullName is required and must be a string');
     } else {

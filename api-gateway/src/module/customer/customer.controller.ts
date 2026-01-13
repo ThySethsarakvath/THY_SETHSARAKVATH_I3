@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // src/modules/customers/customers.controller.ts
 import { Controller, Post, Body } from '@nestjs/common';
 import { DobPipe } from 'src/common/pipes/dob.pipe';

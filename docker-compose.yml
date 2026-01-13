@@ -40,6 +40,24 @@ services:
     depends_on:
       - rabbitmq
 
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile.dev
+    command: npm run start:dev
+    ports:
+      - "3001:3000"
+    environment:
+      RABBITMQ_URL: amqp://admin:admin@rabbitmq:5672
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - ./auth-service:/app
+      - /app/node_modules
+    depends_on:
+      - rabbitmq
+    env_file:
+      - .env
+
   postgres:
     image: postgres:16
     environment:
