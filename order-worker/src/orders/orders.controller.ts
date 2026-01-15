@@ -1,16 +1,18 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Controller } from '@nestjs/common';
-import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
+import { Body, Controller, Post, Delete } from '@nestjs/common';
+import { OrdersService } from './orders.service';
 
 @Controller('orders')
 export class OrdersController {
-  @EventPattern('order_created')
-  handleOrderCreated(@Payload() data: any, @Ctx() context: RmqContext) {
-    console.log(`Received order_created: ${JSON.stringify(data)}`);
-  }
+  constructor(private readonly ordersService: OrdersService) {}
 
-  @EventPattern('order_deleted')
-  handleOrderDeleted(@Payload() data: any, @Ctx() context: RmqContext) {
-    console.log(`incoming message: order_deleted`);
+  @Post()
+  create(@Body() body: any) {
+    console.log('controller create');
+    return this.ordersService.createOrder(body);
+  }
+  @Delete()
+  delete() {
+    console.log('controller delete');
+    return this.ordersService.deleteOrder();
   }
 }
