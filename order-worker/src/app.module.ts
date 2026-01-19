@@ -15,6 +15,9 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './users/users.module';
 import { CustomersModule } from './module/customer/customer.module';
 // import { TypeOrmModule } from '@nestjs/typeorm';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -27,6 +30,13 @@ import { CustomersModule } from './module/customer/customer.module';
     ProductModule,
     UserModule,
     CustomersModule,
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      // autoSchemaFile: 'schema.gql',
+      typePaths: [join(process.cwd(), 'src/**/*.graphql')],
+      sortSchema: true,
+      playground: true,
+    }),
     DatabaseModule.forRoot({
       host: process.env.DB_HOST!,
       port: Number(process.env.DB_PORT),

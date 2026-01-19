@@ -5,6 +5,7 @@ import { ReceiptsService } from './receipts.service';
 import { Receipt } from 'src/database/entities/receipts.entity';
 import { NotificationsModule } from 'src/notifications/notifications.module';
 import { DatabaseModule } from 'src/database/database.module';
+import { ReceiptsResolver } from './receipts.resolver';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { DatabaseModule } from 'src/database/database.module';
       channels: ['log'],
     }),
   ],
-  providers: [ReceiptsService],
+  providers: [ReceiptsService, ReceiptsResolver],
   controllers: [ReceiptsController],
 })
 export class ReceiptsModule {}
