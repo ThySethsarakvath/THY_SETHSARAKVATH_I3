@@ -18,6 +18,7 @@ import { CustomersModule } from './module/customer/customer.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
+import { GraphqlModule } from './graphql/graphql.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { join } from 'path';
     ProductModule,
     UserModule,
     CustomersModule,
+    GraphqlModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       // autoSchemaFile: 'schema.gql',

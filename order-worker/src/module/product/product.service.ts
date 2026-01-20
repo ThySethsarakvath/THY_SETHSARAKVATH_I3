@@ -15,7 +15,6 @@ export class ProductService {
   }
 
   async findAll(): Promise<Product[]> {
-    // Added 'category' relation so you can see category details in the list
     return await this.productRepo.find({
       relations: ['category'],
     });

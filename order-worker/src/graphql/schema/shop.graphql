@@ -1,0 +1,33 @@
+type Category {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type Product {
+  id: ID!
+  name: String!
+  price: Float!
+  sku: String!
+  categoryId: ID!
+  category: Category
+}
+
+type Query {
+  categories: [Category!]!
+  products: [Product!]!
+  product(id: ID!): Product
+}
+
+type Mutation {
+  # Matches CreateCategoryDto
+  createCategory(name: String!, description: String): Category!
+  
+  # Matches CreateProductDto
+  createProduct(
+    name: String!, 
+    price: Float!, 
+    sku: String!, 
+    categoryId: ID!
+  ): Product!
+}
