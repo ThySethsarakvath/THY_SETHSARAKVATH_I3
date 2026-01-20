@@ -1,0 +1,46 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type CategoryType {
+  description: String
+  id: ID!
+  name: String!
+}
+
+input CreateProductInput {
+  categoryId: ID!
+  name: String!
+  price: Float!
+  sku: String!
+}
+
+type Mutation {
+  createCategory(description: String, name: String!): CategoryType!
+  createProduct(input: CreateProductInput!): ProductType!
+  createReceipt(issuedAt: String!, name: String!, price: Float!): ReceiptType!
+  deleteReceipt(receiptId: ID!): Boolean!
+}
+
+type ProductType {
+  category: CategoryType
+  categoryId: ID!
+  id: ID!
+  name: String!
+  price: Float!
+  sku: String!
+}
+
+type Query {
+  categories: [CategoryType!]!
+  products: [ProductType!]!
+  receipt(receiptId: ID!): ReceiptType!
+  receipts: [ReceiptType!]!
+}
+
+type ReceiptType {
+  id: ID!
+  issuedAt: String!
+  name: String!
+  price: Float!
+}
