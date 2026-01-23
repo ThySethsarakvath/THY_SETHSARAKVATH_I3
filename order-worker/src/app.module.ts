@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
@@ -19,10 +20,14 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { GraphqlModule } from './graphql/graphql.module';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from './auth/strategy/jwt.strategy';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '../.env' }),
+    PassportModule,
     OrdersModule,
     ReceiptsModule,
     PaymentsModule,
@@ -32,6 +37,14 @@ import { GraphqlModule } from './graphql/graphql.module';
     UserModule,
     CustomersModule,
     GraphqlModule,
+    JwtModule.registerAsync({
+      useFactory: () => ({
+        secret: process.env.JWT_ACCESS_SECRET!,
+        signOptions: {
+          expiresIn: (process.env.JWT_ACCESS_EXPIRES as any) ?? '15m',
+        },
+      }),
+    }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       // autoSchemaFile: 'schema.gql',
@@ -55,6 +68,6 @@ import { GraphqlModule } from './graphql/graphql.module';
     CoreModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, JwtStrategy],
 })
 export class AppModule {}

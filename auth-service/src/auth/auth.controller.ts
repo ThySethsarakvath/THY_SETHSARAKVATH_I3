@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/require-await */
@@ -28,7 +29,15 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('me')
   async me(@Req() req: any) {
-    return req.user;
+    // ✅ Wrap in 'user' object for gateway compatibility
+    return {
+      user: {
+        id: req.user.sub,
+        email: req.user.email,
+        roles: req.user.roles,
+        permissions: req.user.permissions,
+      },
+    };
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
