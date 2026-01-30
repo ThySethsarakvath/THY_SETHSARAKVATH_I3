@@ -1,18 +1,10 @@
 <template>
   <ul class="todoLists">
     <template v-if="status == 'completed'">
-      <TodoItem
-        v-for="todo of completedTasks"
-        icon="uil-adobe-alt"
-        :todo="todo"
-      />
+      <TodoItem v-for="todo of completedTasks" icon="uil-adobe-alt" :todo="todo" />
     </template>
     <template v-else>
-      <TodoItem
-        v-for="todo of pendingTasks"
-        icon="uil-adobe-alt"
-        :todo="todo"
-      />
+      <TodoItem v-for="todo of pendingTasks" icon="uil-adobe-alt" :todo="todo" />
     </template>
   </ul>
 </template>
@@ -41,21 +33,13 @@ export default {
     await this.todoStore.fetchTodos();
   },
   computed: {
-    ...mapState(useTodoStore, ["todos", "countTodos"]),
+    ...mapState(useTodoStore, ["todos"]),
     completedTasks() {
-      if (this.todos) {
-        return this.todos.filter((todo) => todo.completedAt != null);
-      }
-      return [];
+      // Hasura uses a boolean 'is_done'
+      return this.todos.filter((todo) => todo.is_done === true);
     },
     pendingTasks() {
-      if (this.todos) {
-        // if (this.todos.length > 2) {
-        //   this.todos.push({ task: "new" });
-        // }
-        return this.todos.filter((todo) => todo.completedAt == null);
-      }
-      return [];
+      return this.todos.filter((todo) => todo.is_done === false);
     },
   },
   watch: {
