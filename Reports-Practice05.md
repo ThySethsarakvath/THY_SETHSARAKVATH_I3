@@ -28,8 +28,8 @@ Using `kennethreitz/httpbin` and the `wrk` load generator under 50 concurrent us
 - Average latency is well within the 300ms SLO.  
 - Max latency (674ms) suggests tail latency could become problematic as load increases.  
 
-![Alt text](screenshot\A2.png)
-![Alt text](screenshot\A3.png)
+![Alt text](./screenshot/A2.png)
+![Alt text](screenshot/A3.png)
 
 
 ---
@@ -40,7 +40,7 @@ Using `kennethreitz/httpbin` and the `wrk` load generator under 50 concurrent us
 - **Readiness Probe:** Ensures the pod is fully started and ready before receiving traffic. Prevents `502 Bad Gateway` errors during rollouts.  
 - **Liveness Probe:** Monitors application health. If the container freezes or becomes unresponsive, Kubernetes restarts it to maintain availability.  
 
-![Alt text](screenshot\B.png)
+![Alt text](screenshot/B.png)
 
 ---
 
@@ -57,8 +57,8 @@ Using `kennethreitz/httpbin` and the `wrk` load generator under 50 concurrent us
 **Why HPA helped:**  
 HPA distributed load across 10 pods instead of 2, preventing crashes and keeping latency under the 300ms SLO. Without HPA, latency would likely have climbed into seconds.  
 
-![Alt text](screenshot\C1.png)
-![Alt text](screenshot\C2.png)
+![Alt text](screenshot/C1.png)
+![Alt text](screenshot/C2.png)
 
 ---
 
@@ -71,7 +71,7 @@ HPA distributed load across 10 pods instead of 2, preventing crashes and keeping
   - Uses round-robin distribution to balance traffic across pods.  
   - Prevents any single pod from being overwhelmed.  
 
-![Alt text](screenshot\D.png)
+![Alt text](screenshot/D.png)
 
 ---
 
@@ -97,9 +97,9 @@ Implemented a **Cache-Aside (Lazy Loading)** pattern using Redis.
 - Prevents stale data persisting indefinitely.  
 - Cache refreshes after expiration, ensuring consistency with source of truth.  
 
-![Alt text](screenshot\E1.png)
-![Alt text](screenshot\E2.png)
-![Alt text](screenshot\E3.png)
+![Alt text](screenshot/E1.png)
+![Alt text](screenshot/E2.png)
+![Alt text](screenshot/E3.png)
 
 ---
 
